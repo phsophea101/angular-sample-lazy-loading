@@ -1,0 +1,44 @@
+<div class="app">
+  <header>
+    <section>
+      <h1>{{ title }}</h1>
+    </section>
+    <nav>
+      <h2>4 Links with Routes</h2>
+      <ul>
+        <li><a routerLink="/">Home</a></li>
+        <li><a routerLink="/about-me">About</a></li>
+        <li><a routerLink="/login">Login</a></li>
+        <li><a routerLink="/signup">Signup</a></li>
+      </ul>
+      <h3>1 Link with Child Routes</h3>
+      <ul>
+        <li><a routerLink="/contact">Contact</a></li>
+      </ul>
+    </nav>
+
+  </header>
+
+  <main>
+    <h4>Routes Result</h4>
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- ======= Start Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <div class="section-title">
+        <h2>Favorite Quotes</h2>
+        <hr class="line">
+      </div>
+      <p> &ldquo;Attitude Is Everything.&rdquo;</p>
+      <p> &ldquo;You Will Never Get Bored When You Try Something New.&rdquo;</p>
+      <div class="copyright">
+        &copy; 2019 - {{now}} All Rights Reserved.
+      </div>
+      <div class="credits">
+      </div>
+    </div>
+  </footer>
+  <!-- End Footer -->
+</div>
