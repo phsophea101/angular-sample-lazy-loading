@@ -1,7 +1,8 @@
-import { Injectable, Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from "@angular/common/http";
 import { environment } from 'src/environments/environment';
 import { ResponseModel } from '../models/response-model.interface';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,33 +16,56 @@ export class HttpServiceService {
     }),
   };
   constructor(private http: HttpClient) { }
-  gets<T>(path: String, params?: HttpParams, loading?: boolean) {
-    const promise = new Promise<void>((resolve, reject) => {
-      this.http.get<T>(`${this.baseUrl}/${path}`, { params }).subscribe({
+  get<T>(path: String, params?: HttpParams, loading?: boolean) {
+    if (loading) {
+
+    }
+    return new Promise<void>((resolve, reject) => {
+      this.http.get<ResponseModel<T>>(`${this.baseUrl}/${path}`, { params }).subscribe({
         next: (res: any) => {
+          console.log('next');
           resolve(res);
         },
-        error: (err: any) => {
-          reject(err);
+        error: (error: any) => {                              //Error callback
+          console.error('error caught in component')
+          if (error instanceof HttpErrorResponse) {
+            if (error.error instanceof ErrorEvent) {
+              console.error("Error Event");
+            } else {
+              console.error(`error status : ${error.status} ${error.statusText}`);
+              switch (error.status) {
+                case 401:      //consolein
+                  break;
+                case 403:     //forbidden
+                  break;
+                case 404:     //not found
+                  break;
+              }
+            }
+          } else {
+            console.error("some thing else happened");
+          }
+          reject(error);
         },
         complete: () => {
           console.log('complete');
         },
       });
     });
-    return promise;
   }
-  async get<T>(path: String, params: HttpParams, loading: boolean) {
-    let responseData: T;
+
+  gets<T>(path: String, params?: HttpParams, loading?: boolean) {
     if (loading) {
 
     }
-    this.http.get<ResponseModel<any>>(`${this.baseUrl}/${path}`, { params }).subscribe(
-      (response: ResponseModel<any>) => {
-        console.info(`response received` + JSON.stringify(response))
-        return response.body;
+    let response: ResponseModel<T>;
+    this.getObservable(path, params).subscribe({
+      next: (res: any) => {
+        console.log('next');
+        response = res;
+        return response;
       },
-      error => {                              //Error callback
+      error: (error: any) => {                              //Error callback
         console.error('error caught in component')
         if (error instanceof HttpErrorResponse) {
           if (error.error instanceof ErrorEvent) {
@@ -53,19 +77,22 @@ export class HttpServiceService {
                 break;
               case 403:     //forbidden
                 break;
+              case 404:     //not found
+                break;
             }
           }
         } else {
           console.error("some thing else happened");
         }
-      }
-    );
-    // return responseData;
+        response = error;
+      },
+      complete: () => {
+        console.log('complete');
+        return response;
+      },
+    });
   }
-  post(path: String, body: any, params: HttpParams, loading: boolean) {
-    if (loading) {
-
-    }
-    return this.http.post(`${this.baseUrl}/${path}`, body, { params });
+  getObservable(path: String, params?: HttpParams): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${path}`, { params })
   }
 }

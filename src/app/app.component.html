@@ -1,7 +1,7 @@
 <div class="app">
   <header>
     <section>
-      <h1>{{ title }}</h1>
+      <!-- <h1>{{ title }}</h1> -->
     </section>
     <nav>
       <h2>4 Links with Routes</h2>
@@ -31,8 +31,9 @@
         <h2>Favorite Quotes</h2>
         <hr class="line">
       </div>
-      <p> &ldquo;Attitude Is Everything.&rdquo;</p>
-      <p> &ldquo;You Will Never Get Bored When You Try Something New.&rdquo;</p>
+      <p *ngFor="let item of items?.quotes">
+        &ldquo;{{item}}&ldquo;
+      </p>
       <div class="copyright">
         &copy; 2019 - {{now}} All Rights Reserved.
       </div>

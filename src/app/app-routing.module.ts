@@ -5,30 +5,46 @@ import { HomeComponent } from './modules/home/home.component';
 import { NotFoundComponent } from './modules/not-found/not-found.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, },
+  {
+    path: '', component: HomeComponent, data: {
+      title: 'Home'
+    }
+  },
   { path: 'index', redirectTo: '' },
   { path: 'home', redirectTo: '' },
   {
-    path: 'contact',
+    path: 'contact', data: {
+      title: 'Contact'
+    },
     loadChildren: () => import('./modules/contact/contact.module')
       .then(mod => mod.ContactModule)
   },
   {
-    path: 'about-me',
+    path: 'about-me', data: {
+      title: 'About Me'
+    },
     loadChildren: () => import('./modules/about/about.module')
       .then(mod => mod.AboutModule)
   },
   {
-    path: 'login',
+    path: 'login', data: {
+      title: 'Login'
+    },
     loadChildren: () => import('./modules/login/login.module')
       .then(mod => mod.LoginModule)
   },
   {
-    path: 'signup',
+    path: 'signup', data: {
+      title: 'Sign up'
+    },
     loadChildren: () => import('./modules/signup/signup.module')
       .then(mod => mod.SignupModule)
   },
-  { path: '**', component: NotFoundComponent }
+  {
+    path: '**', data: {
+      title: 'Not Found'
+    }, component: NotFoundComponent
+  }
 ];
 
 @NgModule({

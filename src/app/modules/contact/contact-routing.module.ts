@@ -7,29 +7,39 @@ const routes: Routes = [
   {
     path: '', component: ContactComponent, children: [
       {
-        path: '',
+        path: '', data: {
+          title: 'Mailing'
+        },
         loadChildren: () => import(`./mailing/mailing.module`)
           .then(mod => mod.MailingModule)
       },
 
       {
-        path: 'mailing',
+        path: 'mailing', data: {
+          title: 'Mailing'
+        },
         loadChildren: () => import(`./mailing/mailing.module`)
           .then(mod => mod.MailingModule)
       },
       {
-        path: 'mapping',
+        path: 'mapping', data: {
+          title: 'Mapping'
+        },
         loadChildren: () => import(`./mapping/mapping.module`)
           .then(mod => mod.MappingModule)
       },
       {
-        path: 'website',
+        path: 'website', data: {
+          title: 'Website'
+        },
         loadChildren: () => import(`./website/website.module`)
           .then(mod => mod.WebsiteModule)
       },
 
       {
-        path: '**',
+        path: '**', data: {
+          title: 'Mailing'
+        },
         loadChildren: () => import(`./mailing/mailing.module`)
           .then(mod => mod.MailingModule)
       },
