@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
       })
     ).subscribe((data: any) => {
       if (data) {
-        this.titleService.setTitle(data + ' - ' + APP_CONST.APP_TITLE);
+        this.titleService.setTitle(`${data} - ${APP_CONST.APP_TITLE}`);
       }
     });
   }
