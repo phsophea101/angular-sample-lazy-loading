@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from "@angular
 import { environment } from 'src/environments/environment';
 import { ResponseModel } from '../models/response-model.interface';
 import { Observable } from 'rxjs';
+import CaseUtils from '../utils/caseutils';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +24,8 @@ export class HttpServiceService {
     return new Promise<void>((resolve, reject) => {
       this.http.get<ResponseModel<T>>(`${this.baseUrl}/${path}`, { params }).subscribe({
         next: (res: any) => {
-          console.log('next');
-          resolve(res);
+          console.log('next');      
+          resolve(CaseUtils.keysToCamel(res as ResponseModel<T>));
         },
         error: (error: any) => {                              //Error callback
           console.error('error caught in component')

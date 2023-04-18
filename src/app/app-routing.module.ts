@@ -34,8 +34,8 @@ const routes: Routes = [
       .then(mod => mod.LoginModule)
   },
   {
-    path: 'signup', data: {
-      title: 'Sign up'
+    path: 'sign-up', data: {
+      title: 'Sign Up'
     },
     loadChildren: () => import('./modules/signup/signup.module')
       .then(mod => mod.SignupModule)

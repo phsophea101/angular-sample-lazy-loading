@@ -5,6 +5,8 @@ import { HttpServiceService } from './services/http-service.service';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs';
+import { ResponseModel } from './models/response-model.interface';
+import { APP_CONST } from './consts/app-const';
 
 @Component({
   selector: 'app-root',
@@ -22,13 +24,14 @@ export class AppComponent implements OnInit {
   }
   ngOnInit(): void {
     let params: any;
-    let dataResponse: any
+    let dataResponse: ResponseModel<QuoteModel>
     this.http.get<QuoteModel>('api/qutoes', params, true).then(data => {
-      dataResponse = data;
+      dataResponse = data as unknown as ResponseModel<QuoteModel>;
       this.items = dataResponse.body;
-      console.log(dataResponse?.resultMessage);
-
     })
+    this.settingTitle();
+  }
+  private settingTitle() {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       map(() => {
@@ -46,9 +49,8 @@ export class AppComponent implements OnInit {
       })
     ).subscribe((data: any) => {
       if (data) {
-        this.titleService.setTitle(data + ' - Website Name');
+        this.titleService.setTitle(data + ' - ' + APP_CONST.APP_TITLE);
       }
     });
   }
-
 }
